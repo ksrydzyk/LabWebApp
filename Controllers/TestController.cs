@@ -30,7 +30,7 @@ namespace MvcMovie.Controllers
         {
             this.aiClient.TrackEvent("Parameters invoked", new Dictionary<string, string> {{"Name", name}, {"Count", Convert.ToString(count)}});
 
-            ViewData["Message"] = "Hello " + name;
+            ViewData["Message"] = "Hello and welcome " + name;
             ViewData["NumTimes"] = count;
 
             return View();
