@@ -28,7 +28,7 @@ namespace MvcMovie.Controllers
 
         public IActionResult Parameters(string name, int count)
         {
-            this.aiClient.TrackEvent("Parameters invoked", new Dictionary<string, string> {{"Name", name}, {"Count", Convert.ToString(count)}});
+            this.aiClient.TrackE vent("Parameters invoked", new Dictionary<string, string> {{"Name", name}, {"Count", Convert.ToString(count)}});
 
             ViewData["Message"] = "Hello and welcome " + name;
             ViewData["NumTimes"] = count;
@@ -36,4 +36,4 @@ namespace MvcMovie.Controllers
             return View();
         }
     }
-}
+}   
