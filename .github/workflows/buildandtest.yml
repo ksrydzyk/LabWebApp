@@ -49,6 +49,6 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: my-artefact
-        path: public/
-                
+        name: my-package
+        path: bin/Release/DevTestApp.1.0.0.nupkg
+
