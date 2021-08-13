@@ -27,3 +27,53 @@ jobs:
     
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+  release:
+    runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+    
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build with Release
+        run: dotnet build --configuration Release 
+      
+      - name: Create the package
+        run: dotnet pack --configuration Release 
+
+      - uses: actions/upload-artifact@v2
+          with:
+            name: my-artefact
+            path: public/
+
+  publish:
+    if: contains(github.event.pull_request.*.name, 'publish')
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+    
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build with Release
+        run: dotnet build --configuration Release 
+      
+      - name: Create the package
+        run: dotnet pack --configuration Release 
+
+      - uses: actions/upload-artifact@main
+          with:
+            name: my-artefact
+            path: public/
+
