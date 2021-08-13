@@ -48,9 +48,9 @@ jobs:
       run: dotnet pack --configuration Release 
 
     - uses: actions/upload-artifact@v2
-        with:
-          name: my-artefact
-          path: public/
+      with:
+        name: my-artefact
+        path: public/
 
   publish:
     if: contains(github.event.pull_request.*.name, 'publish')
@@ -73,7 +73,7 @@ jobs:
         run: dotnet pack --configuration Release 
 
       - uses: actions/upload-artifact@main
-          with:
-            name: my-artefact
-            path: public/
+        with:
+          name: my-artefact
+          path: public/
 
