@@ -9,27 +9,7 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore
-    
-    - name: Build
-      run: dotnet build --no-restore
-    
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-
   release:
-    if: contains(github.event.pull_request.labels.*.name, 'publish')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -38,18 +18,17 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore
 
-    - name: Build with Release
-      run: dotnet build --configuration Release 
+    - name: Build and publish
+      run: |
+        dotnet restore
+        dotnet build --configuration Release 
+        dotnet publish -c Release -o myapp/ 
       
-    - name: Create the package
-      run: dotnet pack --configuration Release 
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: my-package
-        path: bin/Release/DevTestApp.1.0.0.nupkg
-
+    - name: 'Deploy to Azure'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: QDevTestApp
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} 
+        package: myapp/
+ 
